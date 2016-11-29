@@ -13,8 +13,14 @@ public class Main {
     private JTextField server_address_text_field;
     private JTextField account_input_text_field;
     private JTextField password_input_text_field;
-    private String TEST_SERVER_CONNECTION = "测试服务器联通...\n";
 
+
+    /**
+     * Create the application.
+     */
+    private Main() {
+        initialize();
+    }
 
     /**
      * Launch the application.
@@ -30,13 +36,6 @@ public class Main {
                 }
             }
         });
-    }
-
-    /**
-     * Create the application.
-     */
-    private Main() {
-        initialize();
     }
 
     /**
@@ -56,13 +55,9 @@ public class Main {
 
         JTextArea console_content_text_area = new JTextArea();
         console_content_text_area.setEditable(false);
-        console_content_text_area.setText(TEST_SERVER_CONNECTION);
-        boolean is_connected = action.Network.isReachIp(DEFAULT_SERVER_ADDRESS);
-        if (is_connected) {
-            console_content_text_area.append("iNode服务器(" + DEFAULT_SERVER_ADDRESS + ")连接正常!\n");
-        } else {
-            console_content_text_area.append("iNode服务器(" + DEFAULT_SERVER_ADDRESS + ")连接失败!\n");
-        }
+
+        action.Connection.testConnection(console_content_text_area, DEFAULT_SERVER_ADDRESS);
+
         console_content_text_area.setRows(10);
         console_pane.add(console_content_text_area, BorderLayout.NORTH);
 
@@ -80,20 +75,14 @@ public class Main {
             @Override
             public void focusLost(FocusEvent e) {
                 String serverIpAddress = server_address_text_field.getText();
-                boolean is_connected = action.Network.isReachIp(serverIpAddress);
-                console_content_text_area.setText(TEST_SERVER_CONNECTION);
-                if (is_connected) {
-                    console_content_text_area.append("iNode服务器(" + serverIpAddress + ")连接正常!\n");
-                } else {
-                    console_content_text_area.append("iNode服务器(" + serverIpAddress + ")连接失败!\n");
-                }
+                action.Connection.testConnection(console_content_text_area, serverIpAddress);
             }
         });
-        server_address_text_field.setText("172.20.1.1");
+        server_address_text_field.setText(DEFAULT_SERVER_ADDRESS);
         server_ip_pane.add(server_address_text_field);
         server_address_text_field.setColumns(10);
 
-        JLabel inode_label_2 = new JLabel("（青岛大学默认为"+DEFAULT_SERVER_ADDRESS+"）");
+        JLabel inode_label_2 = new JLabel("（青岛大学默认为" + DEFAULT_SERVER_ADDRESS + "）");
         inode_label_2.setHorizontalAlignment(SwingConstants.TRAILING);
         inode_label_2.setVerticalAlignment(SwingConstants.TOP);
         server_ip_pane.add(inode_label_2);
@@ -129,9 +118,7 @@ public class Main {
             public void actionPerformed(ActionEvent e) {
                 String account = account_input_text_field.getText();
                 String password = password_input_text_field.getText();
-                action.MainAction.login(account, password);
-
-                console_content_text_area.append("正在尝试通过 " + account + " 登陆...\n");
+                action.MainAction.login(console_content_text_area, account, password);
             }
         });
         has_account_login_button.setBounds(68, 90, 117, 29);
