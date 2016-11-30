@@ -3,6 +3,7 @@ package action;
 import bean.UserInfo;
 
 import javax.swing.*;
+import java.util.Random;
 
 public class MainAction {
 
@@ -26,5 +27,31 @@ public class MainAction {
         }
         console_content_text_area.setCaretPosition(console_content_text_area.getText().length());
     }
+
+    public static void changeAccount(JTextArea console_content_text_area, JLabel current_account_label) {
+        if (UserInfo.getUsername() != null) {
+            action.MainAction.logout(console_content_text_area);
+        } else {
+            MainAction ma = new MainAction();
+            String generate = ma.generateAccount(console_content_text_area);
+            current_account_label.setText(generate);
+            console_content_text_area.append("当前账户更换为：" + generate + "\n");
+        }
+        console_content_text_area.setCaretPosition(console_content_text_area.getText().length());
+    }
+
+    public String generateAccount(JTextArea console_content_text_area) {
+        String generated = null;
+        Random rand = new Random();
+        generated = "201" + rand.nextInt(10);
+        generated += "4070";
+        generated += (int) (rand.nextDouble() * 10000);
+        if (generated.length() != 12) {
+            generateAccount(console_content_text_area);
+        }
+        System.out.println(generated);
+        return generated;
+    }
+
 
 }

@@ -1,5 +1,6 @@
 package gui;
 
+import action.MainAction;
 import config.ConfigProperties;
 
 import javax.swing.*;
@@ -61,6 +62,7 @@ public class Main {
         console_pane.setViewportView(verticalBox);
 
         JTextArea console_content_text_area = new JTextArea();
+        console_content_text_area.setAlignmentX(Component.LEFT_ALIGNMENT);
         verticalBox.add(console_content_text_area);
         console_content_text_area.setEditable(false);
 
@@ -155,13 +157,22 @@ public class Main {
         JLayeredPane no_account_tabbed_pane = new JLayeredPane();
         tabbedPane.addTab("尚无账户登陆", null, no_account_tabbed_pane, null);
 
-        JLabel label = new JLabel("自动生成账户:");
-        label.setBounds(6, 6, 102, 16);
-        no_account_tabbed_pane.add(label);
+        JLabel auto_generate_account_label = new JLabel("自动生成账户:");
+        auto_generate_account_label.setBounds(6, 6, 102, 16);
+        no_account_tabbed_pane.add(auto_generate_account_label);
+
+        JLabel current_account_label = new JLabel("201440703000");
+        current_account_label.setBounds(223, 48, 102, 16);
+        MainAction ma = new MainAction();
+        current_account_label.setText(ma.generateAccount(console_content_text_area));
+        no_account_tabbed_pane.add(current_account_label);
 
         JButton no_account_login_button = new JButton("上线");
         no_account_login_button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                String account = current_account_label.getText();
+                String password = "123456";
+                action.MainAction.login(console_content_text_area, account, password);
             }
         });
         no_account_login_button.setBounds(68, 90, 117, 29);
@@ -170,6 +181,7 @@ public class Main {
         JButton no_account_logout_button = new JButton("下线");
         no_account_logout_button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                action.MainAction.logout(console_content_text_area);
             }
         });
         no_account_logout_button.setBounds(197, 90, 117, 29);
@@ -178,19 +190,15 @@ public class Main {
         JButton no_account_change_account_button = new JButton("换一个账户");
         no_account_change_account_button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                MainAction.changeAccount(console_content_text_area, current_account_label);
             }
         });
         no_account_change_account_button.setBounds(326, 90, 117, 29);
         no_account_tabbed_pane.add(no_account_change_account_button);
 
-        JLabel label_1 = new JLabel("当前账户：");
-        label_1.setBounds(149, 48, 72, 16);
-        no_account_tabbed_pane.add(label_1);
-
-        JLabel label_2 = new JLabel("201440703000");
-        label_2.setBounds(223, 48, 102, 16);
-        no_account_tabbed_pane.add(label_2);
-
+        JLabel account_label_1 = new JLabel("当前账户：");
+        account_label_1.setBounds(149, 48, 72, 16);
+        no_account_tabbed_pane.add(account_label_1);
 
     }
 }
