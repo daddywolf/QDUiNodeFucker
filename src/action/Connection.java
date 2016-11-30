@@ -8,7 +8,7 @@ import javax.swing.*;
 public class Connection {
     private static final String TEST_SERVER_CONNECTION = "测试服务器联通...\n";
 
-    public static boolean testConnection(JTextArea console_content_text_area, String IPaddress) {
+    public static boolean testConnection(final JTextArea console_content_text_area, final String IPaddress) {
         boolean flag = false;
         Thread thread = new Thread() {
             public void run() {

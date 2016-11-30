@@ -61,7 +61,7 @@ public class Main {
         Box verticalBox = Box.createVerticalBox();
         console_pane.setViewportView(verticalBox);
 
-        JTextArea console_content_text_area = new JTextArea();
+        final JTextArea console_content_text_area = new JTextArea();
         console_content_text_area.setAlignmentX(Component.LEFT_ALIGNMENT);
         verticalBox.add(console_content_text_area);
         console_content_text_area.setEditable(false);
@@ -189,7 +189,7 @@ public class Main {
         auto_generate_account_label.setBounds(6, 6, 102, 16);
         no_account_tabbed_pane.add(auto_generate_account_label);
 
-        JLabel current_account_label = new JLabel("201440703000");
+        final JLabel current_account_label = new JLabel("201440703000");
         current_account_label.setBounds(223, 48, 102, 16);
         MainAction ma = new MainAction();
         current_account_label.setText(ma.generateAccount(console_content_text_area));
