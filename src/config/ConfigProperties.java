@@ -13,6 +13,7 @@ public class ConfigProperties {
         try {
             prop.load(in);
             responseProperty = prop.getProperty(requestProperty);
+            System.out.println(prop.getProperty("READ_PROPERTIES_FILE_SUCCESSFUL"));
             return responseProperty;
         } catch (IOException e) {
             e.printStackTrace();

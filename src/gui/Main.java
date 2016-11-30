@@ -53,17 +53,20 @@ public class Main {
         frame.setBounds(100, 100, 487, 433);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
-        JPanel console_pane = new JPanel();
+        JScrollPane console_pane = new JScrollPane();
+        console_pane.setHorizontalScrollBarPolicy(ScrollPaneConstants.HORIZONTAL_SCROLLBAR_NEVER);
         frame.getContentPane().add(console_pane, BorderLayout.SOUTH);
-        console_pane.setLayout(new BorderLayout(5, 5));
+
+        Box verticalBox = Box.createVerticalBox();
+        console_pane.setViewportView(verticalBox);
 
         JTextArea console_content_text_area = new JTextArea();
+        verticalBox.add(console_content_text_area);
         console_content_text_area.setEditable(false);
 
         action.Connection.testConnection(console_content_text_area, DEFAULT_SERVER_ADDRESS);
 
         console_content_text_area.setRows(10);
-        console_pane.add(console_content_text_area, BorderLayout.NORTH);
 
         JPanel server_ip_pane = new JPanel();
         frame.getContentPane().add(server_ip_pane, BorderLayout.NORTH);
@@ -131,6 +134,7 @@ public class Main {
         JButton has_account_logout_button = new JButton("下线");
         has_account_logout_button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                action.MainAction.logout(console_content_text_area);
             }
         });
         has_account_logout_button.setBounds(197, 90, 117, 29);

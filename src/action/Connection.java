@@ -6,7 +6,7 @@ import javax.swing.*;
  * Created by jiangzhipeng on 2016/11/29.
  */
 public class Connection {
-    private static String TEST_SERVER_CONNECTION = "测试服务器联通...\n";
+    private static final String TEST_SERVER_CONNECTION = "测试服务器联通...\n";
 
     public static boolean testConnection(JTextArea console_content_text_area, String IPaddress) {
         boolean flag = false;
