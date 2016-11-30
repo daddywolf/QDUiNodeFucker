@@ -1,5 +1,7 @@
 package gui;
 
+import config.ConfigProperties;
+
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -13,13 +15,15 @@ public class Main {
     private JTextField server_address_text_field;
     private JTextField account_input_text_field;
     private JTextField password_input_text_field;
-
+    private ConfigProperties configProperties = new ConfigProperties();
+    private final String DEFAULT_SERVER_ADDRESS = configProperties.getConfigFromProperties("DEFAULT_SERVER_ADDRESS");
 
     /**
      * Create the application.
      */
     private Main() {
         initialize();
+
     }
 
     /**
@@ -42,7 +46,7 @@ public class Main {
      * Initialize the contents of the frame.
      */
     private void initialize() {
-        String DEFAULT_SERVER_ADDRESS = "172.20.1.1";
+
         frame = new JFrame();
         frame.setResizable(false);
         frame.setTitle("iNode Fucker Ver1.0");
