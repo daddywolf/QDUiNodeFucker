@@ -19,6 +19,7 @@ public class Connection {
                 } else {
                     console_content_text_area.append("iNode服务器(" + IPaddress + ")连接失败!\n");
                 }
+                console_content_text_area.setCaretPosition(console_content_text_area.getText().length());
             }
         };
         thread.start();

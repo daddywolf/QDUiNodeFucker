@@ -8,6 +8,7 @@ public class MainAction {
 
     public static void login(JTextArea console_content_text_area, String account, String password) {
         console_content_text_area.append("正在尝试通过 " + account + " 登陆...\n");
+        console_content_text_area.setCaretPosition(console_content_text_area.getText().length());
         UserInfo.setUsername(account);
         System.out.println(account + ":" + password);
     }
@@ -23,6 +24,7 @@ public class MainAction {
             UserInfo.setUsername(null);
             console_content_text_area.append(account + "下线成功！\n");
         }
+        console_content_text_area.setCaretPosition(console_content_text_area.getText().length());
     }
 
 }
