@@ -7,8 +7,8 @@ import javax.swing.*;
 import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.awt.event.FocusAdapter;
-import java.awt.event.FocusEvent;
+import java.awt.event.KeyAdapter;
+import java.awt.event.KeyEvent;
 
 public class Main {
 
@@ -80,11 +80,14 @@ public class Main {
         server_ip_pane.add(inode_label_1);
 
         server_address_text_field = new JTextField();
-        server_address_text_field.addFocusListener(new FocusAdapter() {
+        server_address_text_field.addKeyListener(new KeyAdapter() {
             @Override
-            public void focusLost(FocusEvent e) {
-                String serverIpAddress = server_address_text_field.getText();
-                action.Connection.testConnection(console_content_text_area, serverIpAddress);
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    String serverIpAddress = server_address_text_field.getText();
+                    action.Connection.testConnection(console_content_text_area, serverIpAddress);
+                    account_input_text_field.requestFocus();
+                }
             }
         });
         server_address_text_field.setText(DEFAULT_SERVER_ADDRESS);
@@ -112,16 +115,6 @@ public class Main {
         password_label.setBounds(41, 57, 61, 16);
         has_account_tabbed_pane.add(password_label);
 
-        account_input_text_field = new JTextField();
-        account_input_text_field.setBounds(82, 24, 361, 26);
-        has_account_tabbed_pane.add(account_input_text_field);
-        account_input_text_field.setColumns(10);
-
-        password_input_text_field = new JPasswordField();
-        password_input_text_field.setColumns(10);
-        password_input_text_field.setBounds(82, 52, 361, 26);
-        has_account_tabbed_pane.add(password_input_text_field);
-
         JButton has_account_login_button = new JButton("上线");
         has_account_login_button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
@@ -132,6 +125,41 @@ public class Main {
         });
         has_account_login_button.setBounds(68, 90, 117, 29);
         has_account_tabbed_pane.add(has_account_login_button);
+
+        account_input_text_field = new JTextField();
+        account_input_text_field.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    password_input_text_field.requestFocus();
+                }
+            }
+        });
+        account_input_text_field.setBounds(82, 24, 361, 26);
+        has_account_tabbed_pane.add(account_input_text_field);
+        account_input_text_field.setColumns(10);
+
+        password_input_text_field = new JPasswordField();
+        password_input_text_field.addKeyListener(new KeyAdapter() {
+            @Override
+            public void keyPressed(KeyEvent e) {
+                if (e.getKeyCode() == KeyEvent.VK_ENTER) {
+                    String account = account_input_text_field.getText();
+                    String password = password_input_text_field.getText();
+                    int validAccount = action.MainAction.login(console_content_text_area, account, password);
+                    if (validAccount == 1) {
+                        account_input_text_field.requestFocus();
+                    } else if (validAccount == 2) {
+                        password_input_text_field.requestFocus();
+                    } else {
+                        System.out.println("success");
+                    }
+                }
+            }
+        });
+        password_input_text_field.setColumns(10);
+        password_input_text_field.setBounds(82, 52, 361, 26);
+        has_account_tabbed_pane.add(password_input_text_field);
 
         JButton has_account_logout_button = new JButton("下线");
         has_account_logout_button.addActionListener(new ActionListener() {

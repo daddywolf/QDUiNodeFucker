@@ -7,16 +7,24 @@ import java.util.Random;
 
 public class MainAction {
 
-    public static void login(JTextArea console_content_text_area, String account, String password) {
+    public static int login(JTextArea console_content_text_area, String account, String password) {
+
+        String login_account = UserInfo.getUsername();
+        if (login_account != null) {
+            logout(console_content_text_area);
+        }
         if (account.equals("")) {
             JOptionPane.showMessageDialog(console_content_text_area, "用户名不能为空", "请输入用户名", JOptionPane.ERROR_MESSAGE);
+            return 1;
         } else if (password.equals("")) {
             JOptionPane.showMessageDialog(console_content_text_area, "密码不能为空", "请输入密码", JOptionPane.ERROR_MESSAGE);
+            return 2;
         } else {
             console_content_text_area.append("正在尝试通过 " + account + " 登陆...\n");
             console_content_text_area.setCaretPosition(console_content_text_area.getText().length());
             UserInfo.setUsername(account);
             System.out.println(account + ":" + password);
+            return 0;
         }
     }
 
