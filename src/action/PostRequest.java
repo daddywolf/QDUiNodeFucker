@@ -190,7 +190,7 @@ public class PostRequest {
         System.out.println(result);
         if (result.contains("下线成功")) {
             return "下线成功\n";
-        } else if (result.contains("用户已下线")) {
+        } else if (result.contains("用户已经下线")) {
             return "用户已下线\n";
         } else {
             return "其它错误\n";
