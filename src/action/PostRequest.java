@@ -16,7 +16,7 @@ import java.util.Map;
  */
 public class PostRequest {
 
-    public static String sendGet(String url, String param) {
+    private static String sendGet(String url, String param) {
         String result = "";
         BufferedReader in = null;
         try {
@@ -61,8 +61,7 @@ public class PostRequest {
         return result;
     }
 
-
-    public static String sendPost(String url, Map<String, String> paramMap) {
+    private static String sendPost(String url, Map<String, String> paramMap) {
         PrintWriter out = null;
         BufferedReader in = null;
         String result = "";
@@ -124,19 +123,7 @@ public class PostRequest {
         return result;
     }
 
-
-    public static void main(String[] args) {
-        new PostRequest().login("172.20.1.1", "201440703144", "962464");
-        System.out.println("---------------------------");
-        new PostRequest().online("172.20.1.1");
-        System.out.println("---------------------------");
-//        new PostRequest().logout();
-//        System.out.println("---------------------------");
-        new PostRequest().heartBeat("172.20.1.1");
-        System.out.println("---------------------------");
-    }
-
-    public String login(String serverIP, String userName, String userPwd) {
+    protected String login(String serverIP, String userName, String userPwd) {
         System.out.println(serverIP);
         Map<String, String> mapParam = new HashMap<String, String>();
         mapParam.put("userName", userName);
@@ -161,12 +148,14 @@ public class PostRequest {
             return "用户不存在或者用户没有申请该服务\n";
         } else if (result.contains("用户正在认证")) {
             return "用户正在认证\n";
+        } else if (result.contains("设备拒绝请求")) {
+            return "设备拒绝请求\n";
         } else {
             return "其他错误\n";
         }
     }
 
-    public void online(String serverIP) {
+    protected void online(String serverIP) {
         Map<String, String> mapParam = new HashMap<String, String>();
         mapParam.put("language", "Chinese");
         mapParam.put("heartbeatCyc", "600000");
@@ -180,7 +169,7 @@ public class PostRequest {
         System.out.println(result);
     }
 
-    public String logout(String serverIP) {
+    protected String logout(String serverIP) {
         Map<String, String> mapParam = new HashMap<String, String>();
         mapParam.put("language", "Chinese");
         mapParam.put("userip", null);
@@ -197,7 +186,7 @@ public class PostRequest {
         }
     }
 
-    public void heartBeat(String serverIP) {
+    protected void heartBeat(String serverIP) {
         String pathUrl = "http://" + serverIP + "/portal/online_heartBeat.jsp";
         String s = sendGet("http://" + serverIP + "/portal/online_heartBeat.jsp", "heartbeatCyc=600000&heartBeatTimeoutMaxTime=3&language=Chinese&userDevPort=SR6602-Portal-GW-vlan-00-0000@vlan&userStatus=99&userip=null&serialNo=-22773");
         System.out.println(s);

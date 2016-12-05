@@ -5,6 +5,8 @@ import bean.UserInfo;
 import javax.swing.*;
 import java.util.Random;
 
+import static java.lang.Thread.sleep;
+
 public class MainAction {
 
     public static int login(JTextArea console_content_text_area, String account, String password, String serverIP) {
@@ -12,6 +14,11 @@ public class MainAction {
         String login_account = UserInfo.getUsername();
         if (login_account != null) {
             logout(console_content_text_area);
+            try {
+                sleep(2000);
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
         }
         if (account.equals("")) {
             JOptionPane.showMessageDialog(console_content_text_area, "用户名不能为空", "请输入用户名", JOptionPane.ERROR_MESSAGE);
