@@ -7,7 +7,7 @@ import java.util.Random;
 
 public class MainAction {
 
-    public static int login(JTextArea console_content_text_area, String account, String password) {
+    public static int login(JTextArea console_content_text_area, String account, String password, String serverIP) {
 
         String login_account = UserInfo.getUsername();
         if (login_account != null) {
@@ -24,6 +24,9 @@ public class MainAction {
             console_content_text_area.setCaretPosition(console_content_text_area.getText().length());
             UserInfo.setUsername(account);
             System.out.println(account + ":" + password);
+            PostRequest pr = new PostRequest();
+            String return_msg = pr.login(serverIP, account, password);
+            console_content_text_area.append(return_msg);
             return 0;
         }
     }
@@ -37,7 +40,8 @@ public class MainAction {
             console_content_text_area.append("正在尝试通过 " + account + " 下线...\n");
             System.out.println(account + "下线");
             UserInfo.setUsername(null);
-            console_content_text_area.append(account + "下线成功！\n");
+            String return_msg = new PostRequest().logout("172.20.1.1");
+            console_content_text_area.append(account + return_msg);
         }
         console_content_text_area.setCaretPosition(console_content_text_area.getText().length());
     }

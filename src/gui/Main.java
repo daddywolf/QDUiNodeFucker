@@ -120,7 +120,7 @@ public class Main {
             public void actionPerformed(ActionEvent e) {
                 String account = account_input_text_field.getText();
                 String password = password_input_text_field.getText();
-                action.MainAction.login(console_content_text_area, account, password);
+                action.MainAction.login(console_content_text_area, account, password, DEFAULT_SERVER_ADDRESS);
             }
         });
         has_account_login_button.setBounds(68, 90, 117, 29);
@@ -146,7 +146,7 @@ public class Main {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     String account = account_input_text_field.getText();
                     String password = password_input_text_field.getText();
-                    int validAccount = action.MainAction.login(console_content_text_area, account, password);
+                    int validAccount = action.MainAction.login(console_content_text_area, account, password, DEFAULT_SERVER_ADDRESS);
                     if (validAccount == 1) {
                         account_input_text_field.requestFocus();
                     } else if (validAccount == 2) {
@@ -200,7 +200,7 @@ public class Main {
             public void actionPerformed(ActionEvent e) {
                 String account = current_account_label.getText();
                 String password = "123456";
-                action.MainAction.login(console_content_text_area, account, password);
+                action.MainAction.login(console_content_text_area, account, password, DEFAULT_SERVER_ADDRESS);
             }
         });
         no_account_login_button.setBounds(68, 90, 117, 29);
@@ -209,6 +209,7 @@ public class Main {
         JButton no_account_logout_button = new JButton("下线");
         no_account_logout_button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+
                 action.MainAction.logout(console_content_text_area);
             }
         });
