@@ -47,11 +47,12 @@ public class Main {
      * Initialize the contents of the frame.
      */
     private void initialize() {
-
+        int x = Toolkit.getDefaultToolkit().getScreenSize().width;
+        int y = Toolkit.getDefaultToolkit().getScreenSize().height;
         frame = new JFrame();
         frame.setResizable(false);
         frame.setTitle("iNode Fucker Ver1.0");
-        frame.setBounds(100, 100, 487, 433);
+        frame.setBounds((x - 487) / 2, (y - 433) / 2, 487, 433);
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
 
         JScrollPane console_pane = new JScrollPane();

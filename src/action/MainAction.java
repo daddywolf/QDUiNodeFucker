@@ -68,7 +68,7 @@ public class MainAction {
     public String generateAccount(JTextArea console_content_text_area) {
         String generated = null;
         Random rand = new Random();
-        generated = "201" + rand.nextInt(10);
+        generated = "2014";
         generated += "4070";
         generated += (int) (rand.nextDouble() * 10000);
         if (generated.length() != 12) {

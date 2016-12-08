@@ -16,6 +16,8 @@ import java.util.Map;
  */
 public class PostRequest {
 
+    public static String HeartBeatCyc, serialNo;
+
     private static String sendGet(String url, String param) {
         String result = "";
         BufferedReader in = null;
@@ -136,6 +138,10 @@ public class PostRequest {
         String pathUrl = "http://" + serverIP + "/portal/login.jsp";
         String result = sendPost(pathUrl, mapParam);
         System.out.println(result);
+        Parse parse = new Parse();
+        this.HeartBeatCyc = parse.parseGetHeartbeatCyc(result);
+        this.serialNo = parse.parseGetSerialNo(result);
+        System.out.println(HeartBeatCyc + "  " + serialNo);
         if (result.contains("上线成功")) {
             online(serverIP);
             heartBeat(serverIP);
@@ -145,11 +151,13 @@ public class PostRequest {
         } else if (result.contains("用户密码错误")) {
             return "用户密码错误\n";
         } else if (result.contains("E63018")) {
-            return "用户不存在或者用户没有申请该服务\n";
+            return "用户不存在或者用户没有申请该服务，请更换账户重试\n";
         } else if (result.contains("用户正在认证")) {
-            return "用户正在认证\n";
+            return "用户正在认证，请重试一次\n";
         } else if (result.contains("设备拒绝请求")) {
-            return "设备拒绝请求\n";
+            return "设备拒绝请求，可能是操作过快引起了，请稍后重试\n";
+        } else if (result.contains("接收或解析响应报文失败")) {
+            return "接收或解析响应报文失败，请检查您是否误连到QDU.EDU.CN无线网？\n";
         } else {
             return "其他错误\n";
         }
@@ -158,12 +166,12 @@ public class PostRequest {
     protected void online(String serverIP) {
         Map<String, String> mapParam = new HashMap<String, String>();
         mapParam.put("language", "Chinese");
-        mapParam.put("heartbeatCyc", "600000");
+        mapParam.put("heartbeatCyc", HeartBeatCyc);
         mapParam.put("heartBeatTimeoutMaxTime", "3");
         mapParam.put("userDevPort", "SR6602-Portal-GW-vlan-00-0000@vlan");
         mapParam.put("userStatus", "99");
         mapParam.put("userip", null);
-        mapParam.put("serialNo", "-22773");
+        mapParam.put("serialNo", serialNo);
         String pathUrl = "http://" + serverIP + "/portal/online.jsp";
         String result = sendPost(pathUrl, mapParam);
         System.out.println(result);
@@ -173,7 +181,7 @@ public class PostRequest {
         Map<String, String> mapParam = new HashMap<String, String>();
         mapParam.put("language", "Chinese");
         mapParam.put("userip", null);
-        mapParam.put("serialNo", "-22773");
+        mapParam.put("serialNo", serialNo);
         String pathUrl = "http://" + serverIP + "/portal/logout.jsp";
         String result = sendPost(pathUrl, mapParam);
         System.out.println(result);
@@ -188,7 +196,7 @@ public class PostRequest {
 
     protected void heartBeat(String serverIP) {
         String pathUrl = "http://" + serverIP + "/portal/online_heartBeat.jsp";
-        String s = sendGet("http://" + serverIP + "/portal/online_heartBeat.jsp", "heartbeatCyc=600000&heartBeatTimeoutMaxTime=3&language=Chinese&userDevPort=SR6602-Portal-GW-vlan-00-0000@vlan&userStatus=99&userip=null&serialNo=-22773");
+        String s = sendGet("http://" + serverIP + "/portal/online_heartBeat.jsp", "heartbeatCyc=" + HeartBeatCyc + "&heartBeatTimeoutMaxTime=3&language=Chinese&userDevPort=SR6602-Portal-GW-vlan-00-0000@vlan&userStatus=99&userip=null&serialNo=" + serialNo);
         System.out.println(s);
     }
 
