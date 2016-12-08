@@ -138,10 +138,15 @@ public class PostRequest {
         String pathUrl = "http://" + serverIP + "/portal/login.jsp";
         String result = sendPost(pathUrl, mapParam);
         System.out.println(result);
-        Parse parse = new Parse();
-        this.HeartBeatCyc = parse.parseGetHeartbeatCyc(result);
-        this.serialNo = parse.parseGetSerialNo(result);
-        System.out.println(HeartBeatCyc + "  " + serialNo);
+        try {
+            Parse parse = new Parse();
+            this.HeartBeatCyc = parse.parseGetHeartbeatCyc(result);
+            this.serialNo = parse.parseGetSerialNo(result);
+            System.out.println(HeartBeatCyc + "  " + serialNo);
+        } catch (Exception e) {
+            System.out.println(HeartBeatCyc + "  " + serialNo);
+        }
+
         if (result.contains("上线成功")) {
             online(serverIP);
             heartBeat(serverIP);

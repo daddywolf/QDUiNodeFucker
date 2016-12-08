@@ -1,6 +1,7 @@
 package gui;
 
 import action.MainAction;
+import action.OpenBrowser;
 import config.ConfigProperties;
 
 import javax.swing.*;
@@ -63,6 +64,7 @@ public class Main {
         console_pane.setViewportView(verticalBox);
 
         final JTextArea console_content_text_area = new JTextArea();
+        console_content_text_area.setFont(new Font("微软雅黑", Font.PLAIN, 13));
         console_content_text_area.setAlignmentX(Component.LEFT_ALIGNMENT);
         verticalBox.add(console_content_text_area);
         console_content_text_area.setEditable(false);
@@ -78,9 +80,11 @@ public class Main {
         server_ip_pane.setLayout(fl_server_ip_pane);
 
         JLabel inode_label_1 = new JLabel("iNode 认证服务器地址");
+        inode_label_1.setFont(new Font("微软雅黑", Font.PLAIN, 12));
         server_ip_pane.add(inode_label_1);
 
         server_address_text_field = new JTextField();
+        server_address_text_field.setFont(new Font("微软雅黑", Font.PLAIN, 12));
         server_address_text_field.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -96,11 +100,13 @@ public class Main {
         server_address_text_field.setColumns(10);
 
         JLabel inode_label_2 = new JLabel("（青岛大学默认为" + DEFAULT_SERVER_ADDRESS + "）");
+        inode_label_2.setFont(new Font("微软雅黑", Font.PLAIN, 12));
         inode_label_2.setHorizontalAlignment(SwingConstants.TRAILING);
         inode_label_2.setVerticalAlignment(SwingConstants.TOP);
         server_ip_pane.add(inode_label_2);
 
         JTabbedPane tabbedPane = new JTabbedPane(JTabbedPane.TOP);
+        tabbedPane.setFont(new Font("微软雅黑", Font.PLAIN, 12));
         frame.getContentPane().add(tabbedPane, BorderLayout.CENTER);
 
         JLayeredPane has_account_tabbed_pane = new JLayeredPane();
@@ -109,14 +115,17 @@ public class Main {
         has_account_tabbed_pane.setLayout(null);
 
         JLabel account_label = new JLabel("账号：");
+        account_label.setFont(new Font("微软雅黑", Font.PLAIN, 12));
         account_label.setBounds(41, 29, 61, 16);
         has_account_tabbed_pane.add(account_label);
 
         JLabel password_label = new JLabel("密码：");
+        password_label.setFont(new Font("微软雅黑", Font.PLAIN, 12));
         password_label.setBounds(41, 57, 61, 16);
         has_account_tabbed_pane.add(password_label);
 
         JButton has_account_login_button = new JButton("上线");
+        has_account_login_button.setFont(new Font("微软雅黑", Font.PLAIN, 12));
         has_account_login_button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String account = account_input_text_field.getText();
@@ -128,6 +137,7 @@ public class Main {
         has_account_tabbed_pane.add(has_account_login_button);
 
         account_input_text_field = new JTextField();
+        account_input_text_field.setFont(new Font("微软雅黑", Font.PLAIN, 12));
         account_input_text_field.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -141,6 +151,7 @@ public class Main {
         account_input_text_field.setColumns(10);
 
         password_input_text_field = new JPasswordField();
+        password_input_text_field.setFont(new Font("微软雅黑", Font.PLAIN, 12));
         password_input_text_field.addKeyListener(new KeyAdapter() {
             @Override
             public void keyPressed(KeyEvent e) {
@@ -163,6 +174,7 @@ public class Main {
         has_account_tabbed_pane.add(password_input_text_field);
 
         JButton has_account_logout_button = new JButton("下线");
+        has_account_logout_button.setFont(new Font("微软雅黑", Font.PLAIN, 12));
         has_account_logout_button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 action.MainAction.logout(console_content_text_area);
@@ -172,14 +184,17 @@ public class Main {
         has_account_tabbed_pane.add(has_account_logout_button);
 
         JButton has_account_reset_password_button = new JButton("前往修改密码");
+        has_account_reset_password_button.setFont(new Font("微软雅黑", Font.PLAIN, 12));
         has_account_reset_password_button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
+                OpenBrowser.openSelfService();
             }
         });
         has_account_reset_password_button.setBounds(326, 90, 117, 29);
         has_account_tabbed_pane.add(has_account_reset_password_button);
 
         JLabel tips_label = new JLabel("忘记密码请联系网络中心");
+        tips_label.setFont(new Font("微软雅黑", Font.PLAIN, 12));
         tips_label.setBounds(307, 131, 153, 16);
         has_account_tabbed_pane.add(tips_label);
 
@@ -187,16 +202,19 @@ public class Main {
         tabbedPane.addTab("尚无账户登陆", null, no_account_tabbed_pane, null);
 
         JLabel auto_generate_account_label = new JLabel("自动生成账户:");
+        auto_generate_account_label.setFont(new Font("微软雅黑", Font.PLAIN, 12));
         auto_generate_account_label.setBounds(6, 6, 102, 16);
         no_account_tabbed_pane.add(auto_generate_account_label);
 
         final JLabel current_account_label = new JLabel("201440703000");
+        current_account_label.setFont(new Font("微软雅黑", Font.PLAIN, 12));
         current_account_label.setBounds(223, 48, 102, 16);
         MainAction ma = new MainAction();
         current_account_label.setText(ma.generateAccount(console_content_text_area));
         no_account_tabbed_pane.add(current_account_label);
 
         JButton no_account_login_button = new JButton("上线");
+        no_account_login_button.setFont(new Font("微软雅黑", Font.PLAIN, 12));
         no_account_login_button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 String account = current_account_label.getText();
@@ -208,6 +226,7 @@ public class Main {
         no_account_tabbed_pane.add(no_account_login_button);
 
         JButton no_account_logout_button = new JButton("下线");
+        no_account_logout_button.setFont(new Font("微软雅黑", Font.PLAIN, 12));
         no_account_logout_button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
@@ -218,6 +237,7 @@ public class Main {
         no_account_tabbed_pane.add(no_account_logout_button);
 
         JButton no_account_change_account_button = new JButton("换一个账户");
+        no_account_change_account_button.setFont(new Font("微软雅黑", Font.PLAIN, 12));
         no_account_change_account_button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
                 MainAction.changeAccount(console_content_text_area, current_account_label);
@@ -227,6 +247,7 @@ public class Main {
         no_account_tabbed_pane.add(no_account_change_account_button);
 
         JLabel account_label_1 = new JLabel("当前账户：");
+        account_label_1.setFont(new Font("微软雅黑", Font.PLAIN, 12));
         account_label_1.setBounds(149, 48, 72, 16);
         no_account_tabbed_pane.add(account_label_1);
 
