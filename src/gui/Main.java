@@ -1,7 +1,6 @@
 package gui;
 
 import action.MainAction;
-import action.OpenBrowser;
 import config.ConfigProperties;
 
 import javax.swing.*;
@@ -10,6 +9,7 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.KeyAdapter;
 import java.awt.event.KeyEvent;
+import java.net.URI;
 
 public class Main {
 
@@ -42,6 +42,16 @@ public class Main {
                 }
             }
         });
+    }
+
+    public static void openSelfService() {
+        // 启用系统默认浏览器来打开网址。
+        try {
+            URI uri = new URI("http://172.20.1.1/selfservice/login.jsf");
+            Desktop.getDesktop().browse(uri);
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
     }
 
     /**
@@ -187,7 +197,7 @@ public class Main {
         has_account_reset_password_button.setFont(new Font("微软雅黑", Font.PLAIN, 12));
         has_account_reset_password_button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                OpenBrowser.openSelfService();
+                openSelfService();
             }
         });
         has_account_reset_password_button.setBounds(326, 90, 117, 29);

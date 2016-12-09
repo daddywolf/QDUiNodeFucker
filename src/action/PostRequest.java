@@ -7,16 +7,13 @@ import java.io.PrintWriter;
 import java.net.URL;
 import java.net.URLConnection;
 import java.util.HashMap;
-import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
+import java.util.Timer;
 
-/**
- * @author Post Method
- */
 public class PostRequest {
 
-    public static String HeartBeatCyc, serialNo;
+    private static String HeartBeatCyc, serialNo;
 
     private static String sendGet(String url, String param) {
         String result = "";
@@ -41,7 +38,7 @@ public class PostRequest {
             }
             // 定义 BufferedReader输入流来读取URL的响应
             in = new BufferedReader(new InputStreamReader(
-                    connection.getInputStream()));
+                    connection.getInputStream(), "UTF-8"));
             String line;
             while ((line = in.readLine()) != null) {
                 result += line;
@@ -75,7 +72,7 @@ public class PostRequest {
             conn.setRequestProperty("accept", "*/*");
             conn.setRequestProperty("connection", "Keep-Alive");
             conn.setRequestProperty("user-agent", "Mozilla/4.0 (compatible; MSIE 6.0; Windows NT 5.1;SV1)");
-            // conn.setRequestProperty("Charset", "UTF-8");
+            conn.setRequestProperty("Charset", "UTF-8");
             // 发送POST请求必须设置如下两行
             conn.setDoOutput(true);
             conn.setDoInput(true);
@@ -85,9 +82,7 @@ public class PostRequest {
             // 设置请求属性
             String param = "";
             if (paramMap != null && paramMap.size() > 0) {
-                Iterator<String> ite = paramMap.keySet().iterator();
-                while (ite.hasNext()) {
-                    String key = ite.next();// key
+                for (String key : paramMap.keySet()) {
                     String value = paramMap.get(key);
                     param += key + "=" + value + "&";
                 }
@@ -149,7 +144,7 @@ public class PostRequest {
 
         if (result.contains("上线成功")) {
             online(serverIP);
-            heartBeat(serverIP);
+            timerHeartBeat(serverIP);
             return "上线成功\n";
         } else if (result.contains("用户已经在线")) {
             return "用户已经在线\n";
@@ -199,10 +194,14 @@ public class PostRequest {
         }
     }
 
-    protected void heartBeat(String serverIP) {
-        String pathUrl = "http://" + serverIP + "/portal/online_heartBeat.jsp";
-        String s = sendGet("http://" + serverIP + "/portal/online_heartBeat.jsp", "heartbeatCyc=" + HeartBeatCyc + "&heartBeatTimeoutMaxTime=3&language=Chinese&userDevPort=SR6602-Portal-GW-vlan-00-0000@vlan&userStatus=99&userip=null&serialNo=" + serialNo);
-        System.out.println(s);
+    private void timerHeartBeat(final String serverIP) {
+        Timer timer = new Timer();
+        timer.schedule(new java.util.TimerTask() {
+            public void run() {
+                String s = sendGet("http://" + serverIP + "/portal/online_heartBeat.jsp", "heartbeatCyc=" + HeartBeatCyc + "&heartBeatTimeoutMaxTime=3&language=Chinese&userDevPort=SR6602-Portal-GW-vlan-00-0000@vlan&userStatus=99&userip=null&serialNo=" + serialNo);
+                System.out.println(s);
+            }
+        }, 0, 4 * 60 * 1000);
     }
 
 }

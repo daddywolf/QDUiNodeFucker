@@ -4,7 +4,7 @@ package action;
  * Created by jiangzhipeng on 2016/12/8.
  */
 public class Parse {
-    public String parseGetHeartbeatCyc(String result) {
+    protected String parseGetHeartbeatCyc(String result) {
         String heart = "beatCyc\" value=\"";
         System.out.println("Index Of HeartBeatCyc : " + result.indexOf(heart));
         System.out.println("SubString of HeartBeatCyc" + result.substring(result.indexOf(heart), result.indexOf(heart) + 22));
@@ -13,7 +13,7 @@ public class Parse {
 
     }
 
-    public String parseGetSerialNo(String result) {
+    protected String parseGetSerialNo(String result) {
         String serialNo = "serialNo";
         System.out.println("Index Of serialNo : " + result.indexOf(serialNo));
         System.out.println("SubString of serialNo" + result.substring(result.indexOf(serialNo), result.indexOf(serialNo) + 23));

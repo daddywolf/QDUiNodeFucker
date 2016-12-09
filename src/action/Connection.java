@@ -9,7 +9,7 @@ public class Connection {
     private static final String TEST_SERVER_CONNECTION = "测试服务器联通...\n";
 
     public static boolean testConnection(final JTextArea console_content_text_area, final String IPaddress) {
-        boolean flag = false;
+        final boolean flag = false;
         Thread thread = new Thread() {
             public void run() {
                 console_content_text_area.setText(TEST_SERVER_CONNECTION);
