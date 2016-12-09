@@ -17,8 +17,7 @@ public class Main {
     private JTextField server_address_text_field;
     private JTextField account_input_text_field;
     private JTextField password_input_text_field;
-    private ConfigProperties configProperties = new ConfigProperties();
-    private final String DEFAULT_SERVER_ADDRESS = configProperties.getConfigFromProperties("DEFAULT_SERVER_ADDRESS");
+
 
     /**
      * Create the application.
@@ -45,9 +44,10 @@ public class Main {
     }
 
     public static void openSelfService() {
+        final String DEFAULT_SERVER_ADDRESS = new ConfigProperties().getConfigFromProperties("DEFAULT_SERVER_ADDRESS");
         // 启用系统默认浏览器来打开网址。
         try {
-            URI uri = new URI("http://172.20.1.1/selfservice/login.jsf");
+            URI uri = new URI("http://" + DEFAULT_SERVER_ADDRESS + "/selfservice/login.jsf");
             Desktop.getDesktop().browse(uri);
         } catch (Exception e) {
             e.printStackTrace();
@@ -58,6 +58,7 @@ public class Main {
      * Initialize the contents of the frame.
      */
     private void initialize() {
+        final String DEFAULT_SERVER_ADDRESS = new ConfigProperties().getConfigFromProperties("DEFAULT_SERVER_ADDRESS");
         int x = Toolkit.getDefaultToolkit().getScreenSize().width;
         int y = Toolkit.getDefaultToolkit().getScreenSize().height;
         frame = new JFrame();
@@ -168,7 +169,7 @@ public class Main {
                 if (e.getKeyCode() == KeyEvent.VK_ENTER) {
                     String account = account_input_text_field.getText();
                     String password = password_input_text_field.getText();
-                    int validAccount = action.MainAction.login(console_content_text_area, account, password, DEFAULT_SERVER_ADDRESS);
+                    int validAccount = action.MainAction.login(console_content_text_area, account, password, server_address_text_field.getText().trim());
                     if (validAccount == 1) {
                         account_input_text_field.requestFocus();
                     } else if (validAccount == 2) {
@@ -187,7 +188,7 @@ public class Main {
         has_account_logout_button.setFont(new Font("微软雅黑", Font.PLAIN, 12));
         has_account_logout_button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                action.MainAction.logout(console_content_text_area);
+                action.MainAction.logout(console_content_text_area, server_address_text_field.getText().trim());
             }
         });
         has_account_logout_button.setBounds(197, 90, 117, 29);
@@ -220,7 +221,7 @@ public class Main {
         current_account_label.setFont(new Font("微软雅黑", Font.PLAIN, 12));
         current_account_label.setBounds(223, 48, 102, 16);
         MainAction ma = new MainAction();
-        current_account_label.setText(ma.generateAccount(console_content_text_area));
+        current_account_label.setText(ma.generateAccount());
         no_account_tabbed_pane.add(current_account_label);
 
         JButton no_account_login_button = new JButton("上线");
@@ -240,7 +241,7 @@ public class Main {
         no_account_logout_button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
 
-                action.MainAction.logout(console_content_text_area);
+                action.MainAction.logout(console_content_text_area, server_address_text_field.getText().trim());
             }
         });
         no_account_logout_button.setBounds(197, 90, 117, 29);
@@ -250,7 +251,7 @@ public class Main {
         no_account_change_account_button.setFont(new Font("微软雅黑", Font.PLAIN, 12));
         no_account_change_account_button.addActionListener(new ActionListener() {
             public void actionPerformed(ActionEvent e) {
-                MainAction.changeAccount(console_content_text_area, current_account_label);
+                MainAction.changeAccount(console_content_text_area, current_account_label, server_address_text_field.getText().trim());
             }
         });
         no_account_change_account_button.setBounds(326, 90, 117, 29);

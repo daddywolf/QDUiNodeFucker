@@ -10,10 +10,9 @@ import static java.lang.Thread.sleep;
 public class MainAction {
 
     public static int login(JTextArea console_content_text_area, String account, String password, String serverIP) {
-
         String login_account = UserInfo.getUsername();
         if (login_account != null) {
-            logout(console_content_text_area);
+            logout(console_content_text_area, serverIP);
             try {
                 sleep(2000);
             } catch (InterruptedException e) {
@@ -38,7 +37,7 @@ public class MainAction {
         }
     }
 
-    public static void logout(JTextArea console_content_text_area) {
+    public static void logout(JTextArea console_content_text_area, String IP) {
         String account = null;
         account = UserInfo.getUsername();
         if (account == null) {
@@ -47,33 +46,30 @@ public class MainAction {
             console_content_text_area.append("正在尝试通过 " + account + " 下线...\n");
             System.out.println(account + "下线");
             UserInfo.setUsername(null);
-            String return_msg = new PostRequest().logout("172.20.1.1");
+            String return_msg = new PostRequest().logout(IP);
             console_content_text_area.append(account + return_msg);
         }
         console_content_text_area.setCaretPosition(console_content_text_area.getText().length());
     }
 
-    public static void changeAccount(JTextArea console_content_text_area, JLabel current_account_label) {
+    public static void changeAccount(JTextArea console_content_text_area, JLabel current_account_label, String serverIP) {
         if (UserInfo.getUsername() != null) {
-            action.MainAction.logout(console_content_text_area);
+            action.MainAction.logout(console_content_text_area, serverIP);
         } else {
             MainAction ma = new MainAction();
-            String generate = ma.generateAccount(console_content_text_area);
+            String generate = ma.generateAccount();
             current_account_label.setText(generate);
             console_content_text_area.append("当前账户更换为：" + generate + "\n");
         }
         console_content_text_area.setCaretPosition(console_content_text_area.getText().length());
     }
 
-    public String generateAccount(JTextArea console_content_text_area) {
-        String generated = null;
+    public String generateAccount() {
+        String generated;
         Random rand = new Random();
         generated = "2014";
-        generated += "4070";
-        generated += (int) (rand.nextDouble() * 10000);
-        if (generated.length() != 12) {
-            generateAccount(console_content_text_area);
-        }
+        generated += "40703";
+        generated += rand.nextInt(780);
         System.out.println(generated);
         return generated;
     }

@@ -6,6 +6,7 @@ import java.util.Properties;
 
 public class ConfigProperties {
 
+
     public String getConfigFromProperties(String requestProperty) {
         Properties prop = new Properties();
         InputStream in = getClass().getResourceAsStream("/config/config.properties");
@@ -20,4 +21,5 @@ public class ConfigProperties {
             return "ERROR";
         }
     }
+
 }
